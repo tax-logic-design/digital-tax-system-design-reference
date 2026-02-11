@@ -23,3 +23,18 @@ This project documents a comprehensive framework for designing digital tax deter
 MIT License - See LICENSE file for details.
 
 ### 📁 Project Structure
+
+This framework is organized into the following conceptual modules:
+
+* **Phase 1: Foundation & Architecture**
+    * `File00 - File02`: Core architecture specs and terminology.
+* **Phase 2: Logic & Evidence**
+    * `File03 - File06`: Deterministic data processing and tax determination flow.
+* **Phase 3: Human-in-the-Loop & Governance**
+    * `File07 - File10`: Operational guidelines for manual review and audit readiness.
+* **Phase 4: Operational Frameworks**
+    * `File11 - File18`: Implementation, training, and risk reporting templates.
+* **Phase 5: Financials & ROI (Illustrative)**
+    * `File19, File22`: Conceptual ROI modeling and price configuration examples.
+* **Phase 6: Quality Assurance**
+    * `File24`: Configuration regression testing and logic validation.
