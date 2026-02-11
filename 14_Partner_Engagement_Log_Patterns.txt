@@ -1,0 +1,308 @@
+---
+
+**[file name]: 14_Partner_Engagement_Log_Patterns.txt**
+```markdown
+# File14: Partner Engagement Log Patterns – Educational Case Study
+
+## ⚠️ EDUCATIONAL CASE STUDY ONLY
+**Patterns for designing partner engagement tracking and communication logs. Not for production use.**
+
+## Educational Purpose
+Study design patterns for:
+- Multi-party communication tracking
+- Interaction history management
+- Action item tracking and follow-up
+- Account management workflows
+
+## 1. Pattern: Structured Communication Log
+```python
+# EDUCATIONAL PATTERN - NOT PRODUCTION CODE
+class CommunicationLogPattern:
+    """
+    Pattern: Structured logging of partner communications.
+    Learning Focus: Event sourcing, interaction history, and context preservation.
+    """
+    def log_interaction(self, partner_id, interaction_data):
+        """
+        Pattern: Record a structured interaction log entry.
+        """
+        log_entry = {
+            "interaction_id": f"INT_{partner_id}_{{YYYYMMDDHHMMSS}}_{{UUID_SHORT}}",
+            "partner_id": partner_id,
+            "timestamp": "{{TIMESTAMP}}",
+            "type": interaction_data["type"],  # e.g., "email", "call", "meeting", "support_ticket"
+            "channel": interaction_data.get("channel", "unknown"),
+            "direction": interaction_data.get("direction", "inbound"),  # inbound/outbound
+            "participants": [
+                {
+                    "role": p["role"],
+                    "name": p["name"],
+                    "email": p["email"],
+                    "organization": p.get("organization", "our_team")
+                }
+                for p in interaction_data.get("participants", [])
+            ],
+            "content_summary": {
+                "subject": interaction_data.get("subject", ""),
+                "key_points": interaction_data.get("key_points", []),
+                "attachments": interaction_data.get("attachments", []),
+                "has_confidential_info": interaction_data.get("has_confidential", False)
+            },
+            "follow_up_actions": [],
+            "tags": interaction_data.get("tags", []),
+            "related_entities": interaction_data.get("related_entities", {
+                "opportunities": [],
+                "contracts": [],
+                "support_cases": []
+            })
+        }
+
+        # Pattern: Extract action items from content
+        if interaction_data.get("action_items"):
+            for action in interaction_data["action_items"]:
+                action_item = self._create_action_item(action, log_entry["interaction_id"])
+                log_entry["follow_up_actions"].append(action_item)
+
+        # Pattern: Store with immutable reference
+        self._persist_log_entry(log_entry)
+
+        return log_entry
+2. Pattern: Action Item Tracker
+python
+class ActionItemTrackerPattern:
+    """
+    Pattern: Track and manage action items from partner interactions.
+    Learning Focus: Task management, deadlines, and accountability tracking.
+    """
+    def create_action_item(self, description, assigned_to, due_date, context):
+        """
+        Pattern: Create a tracked action item from an interaction.
+        """
+        action_item = {
+            "action_id": f"ACT_{context['partner_id']}_{{YYYYMMDDHHMMSS}}_{{UUID_SHORT}}",
+            "description": description,
+            "created_at": "{{TIMESTAMP}}",
+            "created_by": context.get("created_by", "system"),
+            "source_interaction_id": context.get("interaction_id"),
+            "assigned_to": {
+                "name": assigned_to.get("name"),
+                "email": assigned_to.get("email"),
+                "team": assigned_to.get("team"),
+                "role": assigned_to.get("role")
+            },
+            "due_date": due_date,
+            "priority": context.get("priority", "medium"),
+            "status": "open",
+            "status_history": [
+                {"status": "open", "timestamp": "{{TIMESTAMP}}", "actor": context.get("created_by")}
+            ],
+            "comments": [],
+            "completion_details": None
+        }
+
+        return action_item
+
+    def update_action_status(self, action_id, new_status, comment=None, actor=None):
+        """
+        Pattern: Update action item status and track history.
+        """
+        action = self._get_action(action_id)
+
+        action["status"] = new_status
+        action["status_history"].append({
+            "status": new_status,
+            "timestamp": "{{TIMESTAMP}}",
+            "actor": actor or "system",
+            "comment": comment
+        })
+
+        if new_status == "completed":
+            action["completion_details"] = {
+                "completed_at": "{{TIMESTAMP}}",
+                "completed_by": actor or "system",
+                "completion_notes": comment
+            }
+
+        return action
+3. Pattern: Partner Health Scorecard
+python
+class PartnerHealthScorecardPattern:
+    """
+    Pattern: Calculate and track partner health metrics over time.
+    Learning Focus: Composite scoring, trend analysis, and early warning indicators.
+    """
+    HEALTH_DIMENSIONS = {
+        "engagement": {
+            "weight": 0.25,
+            "metrics": [
+                {"name": "interaction_frequency", "target": 4},  # interactions per month
+                {"name": "response_time_hours", "target": 24, "inverse": True},
+                {"name": "meeting_attendance_rate", "target": 0.9}
+            ]
+        },
+        "operational": {
+            "weight": 0.30,
+            "metrics": [
+                {"name": "integration_uptime", "target": 0.995},
+                {"name": "error_rate", "target": 0.01, "inverse": True},
+                {"name": "api_latency_p95", "target": 1000, "inverse": True}  # ms
+            ]
+        },
+        "commercial": {
+            "weight": 0.25,
+            "metrics": [
+                {"name": "contract_renewal_risk", "target": 0, "inverse": True},
+                {"name": "payment_timeliness", "target": 0.95},
+                {"name": "expansion_opportunities", "target": 2}
+            ]
+        },
+        "satisfaction": {
+            "weight": 0.20,
+            "metrics": [
+                {"name": "nps_score", "target": 50},
+                {"name": "support_ticket_volume", "target": 5, "inverse": True},
+                {"name": "escalation_count", "target": 0, "inverse": True}
+            ]
+        }
+    }
+
+    def calculate_partner_health(self, partner_id, measurement_period_days=30):
+        """
+        Pattern: Calculate current health score for a partner.
+        """
+        dimension_scores = {}
+        overall_score = 0.0
+
+        for dimension, config in self.HEALTH_DIMENSIONS.items():
+            dimension_score = 0.0
+            metric_scores = []
+
+            for metric in config["metrics"]:
+                current_value = self._get_metric_value(partner_id, metric["name"], measurement_period_days)
+                target = metric["target"]
+
+                # Pattern: Score normalization (0-1)
+                if metric.get("inverse", False):
+                    score = max(0.0, 1.0 - (current_value / target)) if target > 0 else 0.0
+                else:
+                    score = min(1.0, current_value / target) if target > 0 else 0.0
+
+                metric_scores.append({
+                    "metric": metric["name"],
+                    "current_value": current_value,
+                    "target": target,
+                    "score": score
+                })
+                dimension_score += score
+
+            dimension_score = dimension_score / len(config["metrics"]) if config["metrics"] else 0.0
+            dimension_scores[dimension] = {
+                "score": dimension_score,
+                "metric_scores": metric_scores
+            }
+            overall_score += dimension_score * config["weight"]
+
+        # Pattern: Determine health status
+        health_status = self._determine_health_status(overall_score, dimension_scores)
+
+        return {
+            "partner_id": partner_id,
+            "period_days": measurement_period_days,
+            "overall_health_score": round(overall_score, 3),
+            "health_status": health_status,
+            "dimension_scores": dimension_scores,
+            "trend": self._calculate_health_trend(partner_id),
+            "alerts": self._generate_health_alerts(dimension_scores)
+        }
+4. Pattern: Partner Communication Templates
+python
+class PartnerCommunicationTemplatePattern:
+    """
+    Pattern: Manage and apply communication templates for partner outreach.
+    Learning Focus: Template management, personalization, and consistency.
+    """
+    TEMPLATE_CATEGORIES = {
+        "onboarding": [
+            "welcome_email",
+            "technical_setup_guide",
+            "api_credentials_provisioned",
+            "integration_complete"
+        ],
+        "operational": [
+            "scheduled_maintenance",
+            "incident_report",
+            "performance_review",
+            "quarterly_business_review"
+        ],
+        "commercial": [
+            "contract_renewal",
+            "pricing_update",
+            "expansion_proposal",
+            "termination_notice"
+        ]
+    }
+
+    def render_template(self, template_name, context_data):
+        """
+        Pattern: Render a communication template with context data.
+        """
+        template = self._load_template(template_name)
+
+        # Pattern: Variable substitution
+        rendered_content = template["content"]
+        for key, value in context_data.items():
+            placeholder = f"{{{{{{{key}}}}}}}"  # Triple braces to avoid escaping
+            rendered_content = rendered_content.replace(placeholder, str(value))
+
+        # Pattern: Conditional sections
+        if "conditionals" in template:
+            rendered_content = self._process_conditionals(
+                rendered_content,
+                template["conditionals"],
+                context_data
+            )
+
+        # Pattern: Attachment handling
+        attachments = []
+        if "attachments" in template:
+            for attachment_template in template["attachments"]:
+                if self._should_include_attachment(attachment_template, context_data):
+                    attachments.append(self._render_attachment(attachment_template, context_data))
+
+        return {
+            "template_name": template_name,
+            "subject": template.get("subject", ""),
+            "body": rendered_content,
+            "attachments": attachments,
+            "metadata": {
+                "version": template.get("version", "1.0"),
+                "last_updated": template.get("last_updated")
+            }
+        }
+5. Educational Exercises
+Design Exercises:
+
+Create a partner engagement dashboard that shows recent interactions, open action items, and health score trends.
+
+Design an escalation workflow for partners with declining health scores.
+
+Create a "partner sentiment analysis" feature that analyzes communication logs for positive/negative language.
+
+Discussion Topics:
+
+How do you balance structured logging with the flexibility to capture unique conversation details?
+
+What privacy considerations are important when logging partner communications?
+
+How can action item tracking be integrated with existing project management tools?
+
+6. Safety & Disclaimer
+This document contains conceptual patterns for designing partner engagement tracking systems in academic contexts.
+
+All partner data, health thresholds, and communication examples are fictional.
+
+The patterns focus on relationship management workflows and data structures, not specific business rules.
+
+Not for production use. Not for actual partner relationship management.
+
+Real partner engagement requires consideration of data privacy, contractual obligations, and cultural context.

@@ -1,0 +1,174 @@
+---
+
+**[file name]: 05_Configuration_Schema_Design_Patterns.json**
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration Schema Design Patterns - Educational Case Study",
+  "description": "CONCEPTUAL EXAMPLE: Schema design patterns for configuration management in system architecture studies. NOT FOR PRODUCTION USE. Contains fictional examples only.",
+  "educationalPurpose": "Study schema design patterns for complex business rule systems. Learn about configuration management, validation, and rule engine design concepts.",
+
+  "criticalDisclaimer": {
+    "warning": "EDUCATIONAL CASE STUDY ONLY",
+    "prohibitions": [
+      "Not for actual system implementation",
+      "Does not contain real business rules or rates",
+      "Not legal, tax, or professional advice",
+      "All jurisdiction and rule examples are fictional"
+    ],
+    "allowedUses": [
+      "Academic study of JSON schema design",
+      "Configuration management pattern analysis",
+      "Rule engine architecture research",
+      "System design coursework"
+    ]
+  },
+
+  "conceptualSchemaPatterns": {
+    "hierarchicalDesignExample": {
+      "description": "Example of hierarchical configuration design pattern",
+      "properties": {
+        "jurisdictionDefinitionPattern": {
+          "type": "object",
+          "properties": {
+            "identifierPattern": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}(-[A-Z0-9]+)?$",
+              "description": "Example pattern for structured identifier design",
+              "educationalNote": "Demonstrates using regex patterns for ID validation in configuration."
+            },
+            "metadataFields": {
+              "type": "object",
+              "description": "Example metadata pattern for versioning and lifecycle",
+              "properties": {
+                "description": {"type": "string"},
+                "version": {"type": "string"},
+                "effectiveDate": {"type": "string", "format": "date"}
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "ruleEnginePatternsExample": {
+      "description": "Conceptual rule engine configuration patterns for study",
+      "properties": {
+        "conditionEvaluationPattern": {
+          "type": "object",
+          "properties": {
+            "conditionSyntaxExample": {
+              "type": "string",
+              "description": "Example condition syntax pattern",
+              "example": "amount > threshold AND product_type IN ('type1', 'type2')",
+              "note": "Illustrates how business rules might be expressed; syntax is fictional."
+            }
+          }
+        }
+      }
+    },
+
+    "temporalConfigurationPattern": {
+      "description": "Pattern for time-based configuration management",
+      "properties": {
+        "validityPeriodsPattern": {
+          "type": "object",
+          "properties": {
+            "effectiveDate": {"type": "string", "format": "date"},
+            "expirationDate": {"type": ["string", "null"], "format": "date"},
+            "educationalNote": "Pattern for managing configuration lifecycle."
+          }
+        }
+      }
+    }
+  },
+
+  "validationPatternsExample": {
+    "type": "object",
+    "description": "Schema validation pattern examples for study",
+    "properties": {
+      "crossFieldValidationPattern": {
+        "type": "object",
+        "description": "Pattern for validating relationships between fields",
+        "properties": {
+          "dependenciesExample": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "educationalNote": "Example of declaring field dependencies in a schema."
+          }
+        }
+      }
+    }
+  },
+
+  "educationalExamples": {
+    "schemaDesignFragment": {
+      "description": "Example schema fragment for educational analysis",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "ruleConfigurationExample": {
+            "type": "object",
+            "properties": {
+              "ruleId": {
+                "type": "string",
+                "pattern": "^RULE_[A-Z0-9_]+$",
+                "description": "Example structured identifier pattern"
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {"type": "string"},
+                    "operator": {
+                      "type": "string",
+                      "enum": ["equals", "greater_than", "less_than", "contains"],
+                      "educationalNote": "Example of an enumerated type for operator safety."
+                    },
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "learningPoints": [
+        "Structured identifier design",
+        "Type-safe operator enumeration",
+        "Extensible condition model"
+      ]
+    }
+  },
+
+  "studyExercises": {
+    "beginner": [
+      "Analyze the schema structure and identify key design components.",
+      "Create a simple configuration object that validates against the example schema fragment.",
+      "Explain the purpose of the 'educationalNote' fields."
+    ],
+    "intermediate": [
+      "Design an extension to the schema to support a new 'custom validation' rule type.",
+      "Create a JSON Schema validation rule that ensures 'expirationDate' is after 'effectiveDate'.",
+      "Design a version migration strategy for a breaking change to the rule condition syntax."
+    ]
+  },
+
+  "relatedConcepts": {
+    "schemaDesign": ["JSON Schema", "OpenAPI Specification", "XML Schema"],
+    "configurationManagement": ["Feature Flags", "Dynamic Configuration", "Config Servers"],
+    "validationPatterns": ["Schema Validation", "Business Rule Validation", "Cross-field Validation"]
+  },
+
+  "metadata": {
+    "schemaVersion": "1.0.0",
+    "educationalPurpose": "System architecture and schema design study",
+    "createdFor": "Academic research and coursework",
+    "lastUpdated": "{{CURRENT_DATE}}",
+    "license": "Educational Use Only"
+  }
+}

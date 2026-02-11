@@ -1,0 +1,166 @@
+---
+
+**[file name]: 02_System_Architecture_Specification_Patterns.txt**
+```markdown
+# File02: System Architecture Specification – Educational Case Study
+
+## ⚠️ EDUCATIONAL CASE STUDY ONLY
+**System design patterns for academic study. Not production specifications. Contains fictional examples only.**
+
+## Educational Purpose
+Illustrate phase-based system architecture concepts using a **fictional determination system** as a scenario. Demonstrates design patterns for complex rule-based systems.
+
+## 1. System Overview (Conceptual & Fictional)
+
+### Educational Phases (Patterns to Study):
+- **Phase 0**: Transaction Ingestion (Data Processing & Validation Pattern)
+- **Phase 1**: Residence Determination (Decision Table & Confidence Scoring Pattern)
+- **Phase 2**: Rule Calculation (Rule Engine & Configuration Pattern)
+- **Phase 3**: Validation & Review (Resilience & Human-in-the-Loop Pattern)
+- **Phase 4**: Audit Logging (Immutable Traceability Pattern)
+
+### Core Design Principles (For Study):
+- Deterministic logic implementation patterns.
+- Human oversight workflow integration.
+- Immutable audit trail design.
+- Graceful degradation strategies.
+
+## 2. Phase 0 – Transaction Ingestion (Pattern Example)
+```python
+# EDUCATIONAL PSEUDOCODE - PATTERN DEMONSTRATION ONLY
+class TransactionIngestor:
+    """
+    Example pattern for data ingestion in system design study.
+    Focus: Input validation, normalization, and error handling patterns.
+    """
+    def process(self, raw_data):
+        # Conceptual validation pattern
+        validated = self._validate_structure(raw_data)
+        if not validated["is_valid"]:
+            return self._create_error_output(validated["errors"]) # Error handling pattern
+
+        # Example normalization pattern
+        normalized = self._normalize_data(validated["data"])
+
+        # Educational output example
+        return {
+            "status": "processed_for_study",
+            "data": normalized,
+            "metadata": {
+                "processing_timestamp": "{{EXAMPLE_TIMESTAMP}}",
+                "note": "Conceptual example for learning data ingestion patterns."
+            }
+        }
+Learning Points: Data validation strategies, input sanitization, metadata attachment, error flow design.
+
+3. Phase 1 – Residence Determination (Decision Table Study)
+Educational Decision Table Pattern:
+
+Evidence Combination (Fictional)	Confidence Level	Action Pattern	Learning Focus
+Multiple matching sources	High	Automated determination	Evidence hierarchy & weighting
+Single source only	Medium	Review suggested	Data sufficiency patterns
+Conflicting evidence	Low	Manual review required	Conflict resolution strategies
+Insufficient data	Very Low	Escalation needed	Quality control gates
+Example Conceptual Output:
+
+json
+{
+  "phase_output_example": {
+    "phase": "residence_determination_concept",
+    "confidence_score": 0.85,
+    "evidence_used": ["EXAMPLE_EVIDENCE_TYPE_A", "EXAMPLE_EVIDENCE_TYPE_B"],
+    "requires_review": false,
+    "note": "Conceptual output pattern for studying interface contracts between phases."
+  }
+}
+4. Phase 2 – Rule Calculation (Rule Engine Patterns)
+python
+# EDUCATIONAL EXAMPLE - RULE ENGINE PATTERN
+class EducationalRuleEngine:
+    """
+    Pattern example for rule-based calculation systems.
+    Focus: Rule evaluation, condition matching, and result aggregation.
+    """
+    def evaluate(self, transaction_context, rule_set):
+        results = []
+        for rule in rule_set:
+            # Conceptual rule evaluation pattern
+            if self._matches_condition(rule["condition"], transaction_context):
+                result = self._apply_action(rule["action"], transaction_context)
+                results.append({
+                    "rule_id": rule["id"],
+                    "result": result,
+                    "applied": True
+                })
+            else:
+                results.append({"rule_id": rule["id"], "applied": False})
+
+        return {
+            "rule_applications": results,
+            "total_evaluated": len(rule_set),
+            "note": "Educational pattern for rule engine design."
+        }
+Learning Points: Rule lifecycle, condition evaluation, action application, result tracing.
+
+5. Phase 3 – Validation Patterns (Resilience Study)
+python
+# CONCEPTUAL RESILIENCE PATTERN
+class EducationalCircuitBreaker:
+    """
+    Example pattern for system resilience study.
+    Focus: Failure detection, state management, and graceful fallbacks.
+    """
+    def __init__(self, failure_threshold=5):
+        self.failure_count = 0
+        self.threshold = failure_threshold
+        self.state = "CLOSED" # STATES: CLOSED, OPEN, HALF_OPEN
+
+    def call_external_service(self, service_operation):
+        if self.state == "OPEN":
+            # Fallback pattern: Return cached result or escalate
+            return {"status": "fallback_activated", "source": "circuit_breaker"}
+        try:
+            result = service_operation()
+            self._record_success()
+            return result
+        except Exception:
+            self._record_failure()
+            return {"status": "degraded_mode", "requires_review": True}
+Learning Points: Circuit breaker states, failure thresholds, fallback strategies, state recovery.
+
+6. Phase 4 – Audit Logging (Traceability Patterns)
+json
+{
+  "audit_log_pattern_example": {
+    "log_id": "EDU_LOG_PATTERN_001",
+    "timestamp": "{{EXAMPLE_TIMESTAMP}}",
+    "system_phase": "Phase1_Residence",
+    "event_type": "determination_completed",
+    "actor": {"type": "system", "id": "engine_v1"},
+    "data_snapshot": {
+      "input_evidence": ["EXAMPLE_EVIDENCE_A"],
+      "decision": "EXAMPLE_DECISION",
+      "confidence_score": 0.85
+    },
+    "system_state": {
+      "version": "educational_example_v1",
+      "config_hash": "{{EXAMPLE_HASH}}"
+    },
+    "educational_note": "Pattern for immutable audit logging. Focus: What data to capture, structuring snapshots, ensuring immutability."
+  }
+}
+Learning Points: Log structure, data snapshot design, immutability techniques, correlation IDs.
+
+7. Educational Implementation Notes
+Safe Study Practices:
+
+Use Hypothetical Data: Never use real transaction or personal data.
+
+Focus on Patterns: Implement the design pattern (e.g., a circuit breaker), not the fictional business logic.
+
+Academic Context: Maintain learning focus; discuss trade-offs.
+
+Professional Guidance: Real systems require experts.
+
+This document illustrates system architecture concepts but does not provide implementation specifications for any real-world system.
+

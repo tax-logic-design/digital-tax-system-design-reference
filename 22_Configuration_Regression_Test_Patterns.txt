@@ -1,0 +1,317 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuration Regression Test Patterns - Educational Case Study",
+  "description": "CONCEPTUAL EXAMPLE: Schema design patterns for configuration regression testing. NOT FOR PRODUCTION USE.",
+  
+  "educationalPurpose": "Study schema design patterns for configuration testing, regression detection, and test case management. Learn about test automation, baseline comparison, and validation strategies.",
+  
+  "criticalDisclaimer": {
+    "warning": "EDUCATIONAL CASE STUDY ONLY",
+    "note": "This is a design pattern example for studying configuration testing frameworks. All jurisdictions, rules, and test cases are fictional placeholders.",
+    "prohibited_uses": [
+      "Not for actual configuration testing",
+      "Not for production validation",
+      "Not for real system deployment"
+    ]
+  },
+  
+  "conceptualSchemaPatterns": {
+    "testSuiteDefinition": {
+      "type": "object",
+      "description": "Pattern for defining a test suite for configuration regression testing.",
+      "properties": {
+        "test_suite_id": {
+          "type": "string",
+          "description": "Unique identifier for the test suite.",
+          "pattern": "^TEST_SUITE_[A-Z0-9_]+_v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "test_suite_name": {
+          "type": "string",
+          "description": "Human-readable name for the test suite."
+        },
+        "description": {
+          "type": "string",
+          "description": "Purpose and scope of this test suite."
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the test suite definition.",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of test suite creation."
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last update."
+        },
+        "maintainer": {
+          "type": "string",
+          "description": "Team or individual responsible for this test suite."
+        },
+        "baseline_configuration": {
+          "type": "object",
+          "description": "Reference configuration version against which changes are tested.",
+          "properties": {
+            "configuration_id": {"type": "string"},
+            "version": {"type": "string"},
+            "baseline_date": {"type": "string", "format": "date-time"}
+          }
+        },
+        "test_cases": {
+          "type": "array",
+          "description": "Collection of test cases in this suite.",
+          "items": {
+            "$ref": "#/conceptualSchemaPatterns/testCaseDefinition"
+          }
+        },
+        "test_execution_config": {
+          "type": "object",
+          "description": "Configuration for test execution.",
+          "properties": {
+            "run_on_config_change": {"type": "boolean"},
+            "failure_action": {"type": "string", "enum": ["block", "warn", "log_only"]},
+            "parallel_execution": {"type": "boolean"},
+            "execution_timeout_seconds": {"type": "integer", "minimum": 1},
+            "notification_channels": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    
+    "testCaseDefinition": {
+      "type": "object",
+      "description": "Pattern for defining an individual test case.",
+      "properties": {
+        "test_case_id": {
+          "type": "string",
+          "description": "Unique identifier for this test case.",
+          "pattern": "^TC_[A-Z0-9_]+$"
+        },
+        "test_case_name": {
+          "type": "string",
+          "description": "Descriptive name for the test case."
+        },
+        "description": {
+          "type": "string",
+          "description": "What this test case verifies."
+        },
+        "category": {
+          "type": "array",
+          "description": "Test case categories for filtering and reporting.",
+          "items": {
+            "type": "string",
+            "enum": ["residence_determination", "rule_evaluation", "threshold_testing", "evidence_processing", "edge_case", "regression"]
+          }
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"],
+          "description": "Test case priority."
+        },
+        "input": {
+          "type": "object",
+          "description": "Test input data - all values are fictional placeholders.",
+          "properties": {
+            "transaction_data": {
+              "type": "object",
+              "description": "Fictional transaction data for test.",
+              "additionalProperties": true
+            },
+            "jurisdiction_config": {
+              "type": "object",
+              "description": "Fictional jurisdiction configuration.",
+              "additionalProperties": true
+            },
+            "system_state": {
+              "type": "object",
+              "description": "Fictional system state for test.",
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "expected_output": {
+          "type": "object",
+          "description": "Expected test results - for comparison with actual output.",
+          "properties": {
+            "determination_result": {
+              "type": "object",
+              "description": "Expected determination result.",
+              "additionalProperties": true
+            },
+            "audit_log_requirements": {
+              "type": "object",
+              "description": "Expected audit log entries or fields.",
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        },
+        "acceptable_variance": {
+          "type": "object",
+          "description": "Acceptable tolerance for non-exact matches.",
+          "properties": {
+            "tax_amount_tolerance_percent": {"type": "number", "minimum": 0},
+            "confidence_score_tolerance": {"type": "number", "minimum": 0, "maximum": 1},
+            "other_tolerances": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for test case organization.",
+          "items": {"type": "string"}
+        }
+      },
+      "required": ["test_case_id", "description", "input", "expected_output"]
+    },
+    
+    "testExecutionResult": {
+      "type": "object",
+      "description": "Pattern for recording test execution results.",
+      "properties": {
+        "execution_id": {
+          "type": "string",
+          "description": "Unique identifier for this test execution."
+        },
+        "test_suite_id": {
+          "type": "string",
+          "description": "Test suite that was executed."
+        },
+        "execution_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "executed_by": {
+          "type": "string",
+          "description": "System or user that initiated the test."
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["development", "staging", "production", "educational"]
+        },
+        "configuration_under_test": {
+          "type": "object",
+          "properties": {
+            "configuration_id": {"type": "string"},
+            "version": {"type": "string"}
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "test_case_id": {"type": "string"},
+              "status": {"type": "string", "enum": ["passed", "failed", "error", "skipped"]},
+              "actual_output": {"type": "object"},
+              "comparison_result": {
+                "type": "object",
+                "properties": {
+                  "match": {"type": "boolean"},
+                  "differences": {"type": "array"},
+                  "within_tolerance": {"type": "boolean"}
+                }
+              },
+              "execution_time_ms": {"type": "number"},
+              "error_message": {"type": "string"}
+            }
+          }
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "total": {"type": "integer"},
+            "passed": {"type": "integer"},
+            "failed": {"type": "integer"},
+            "error": {"type": "integer"},
+            "skipped": {"type": "integer"},
+            "pass_rate": {"type": "number"},
+            "execution_time_seconds": {"type": "number"}
+          }
+        }
+      }
+    }
+  },
+  
+  "educationalExamples": {
+    "testCaseExample": {
+      "test_case_id": "TC_EDU_EVIDENCE_CONFLICT_001",
+      "test_case_name": "Evidence Conflict Resolution Test",
+      "description": "Verifies system behavior when provided evidence sources conflict.",
+      "category": ["evidence_processing", "edge_case"],
+      "priority": "high",
+      "input": {
+        "transaction_data": {
+          "transaction_id": "{{EXAMPLE_TX_ID}}",
+          "billing_country": "{{EXAMPLE_CC_1}}",
+          "payment_country": "{{EXAMPLE_CC_2}}",
+          "ip_country": "{{EXAMPLE_CC_1}}",
+          "ip_vpn_detected": true,
+          "amount": 1000.00,
+          "currency": "{{EXAMPLE_CURRENCY}}",
+          "product_type": "{{EXAMPLE_PRODUCT_TYPE}}"
+        },
+        "jurisdiction_config": {
+          "jurisdiction_id": "{{EXAMPLE_JURISDICTION}}",
+          "evidence_hierarchy": ["billing_country", "payment_country"],
+          "vpn_policy": "reject_evidence"
+        },
+        "educational_note": "All input values are fictional placeholders for pattern study."
+      },
+      "expected_output": {
+        "determination_result": {
+          "confidence_score": 0.55,
+          "requires_review": true,
+          "review_reason": ["evidence_conflict", "vpn_detected"],
+          "review_priority": "high"
+        }
+      },
+      "acceptable_variance": {
+        "confidence_score_tolerance": 0.15
+      },
+      "tags": ["evidence", "conflict", "vpn", "review"]
+    }
+  },
+  
+  "studyExercises": {
+    "beginner": [
+      "Explain the purpose of 'acceptable_variance' in test case definitions.",
+      "What is the difference between a test 'failing' and a test 'error'?",
+      "Why is it important to track the configuration version under test?"
+    ],
+    "intermediate": [
+      "Design a test case that verifies the circuit breaker pattern behavior when an external service is unavailable.",
+      "Create a test coverage report schema that shows which jurisdictions and transaction types are covered by existing test cases.",
+      "Design a test data factory pattern that generates realistic (but fictional) transaction data for test cases."
+    ],
+    "advanced": [
+      "Design a 'test impact analysis' system that identifies which test cases should be run based on which configuration files were changed.",
+      "Propose a strategy for managing test cases when the expected output changes due to intentional business rule changes (not regressions).",
+      "Design a visual diff tool for comparing expected vs. actual nested JSON outputs in test failures."
+    ]
+  },
+  
+  "relatedConcepts": {
+    "testingPatterns": ["Regression Testing", "Snapshot Testing", "Golden Master Testing", "Property-Based Testing"],
+    "configurationManagement": ["Version Control", "Baseline Management", "Change Tracking"],
+    "validationPatterns": ["Schema Validation", "Business Rule Validation", "Cross-field Validation"]
+  },
+  
+  "metadata": {
+    "schemaVersion": "1.0.0",
+    "educationalPurpose": "Configuration testing and regression detection pattern study",
+    "createdFor": "Academic research and coursework",
+    "lastUpdated": "{{CURRENT_DATE}}",
+    "license": "Educational Use Only"
+  }
+}

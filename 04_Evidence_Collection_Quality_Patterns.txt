@@ -1,0 +1,182 @@
+---
+
+**[file name]: 04_Evidence_Collection_Quality_Patterns.txt**
+```markdown
+# File04: Evidence Collection & Data Quality Patterns – Educational Case Study
+
+## ⚠️ EDUCATIONAL CASE STUDY ONLY
+**Conceptual patterns for studying data collection and quality assessment in system design.**
+
+## Overview
+Illustrates **design patterns** for evidence collection, data quality assessment, and confidence scoring in system architecture studies. Focuses on **conceptual frameworks** for educational analysis.
+
+---
+
+## 1. Input Pattern Examples (Fictional)
+
+```json
+{
+  "educational_input_patterns": {
+    "transaction_record_example": {
+      "type": "object",
+      "example": {
+        "id": "{{EXAMPLE_TX_ID}}",
+        "amount": "{{EXAMPLE_AMOUNT}}",
+        "currency": "{{EXAMPLE_CURRENCY_CODE}}",
+        "timestamp": "{{EXAMPLE_TIMESTAMP}}"
+      },
+      "purpose": "Study transaction data structure patterns and schema design."
+    },
+    "preprocessed_evidence_example": {
+      "type": "object",
+      "example": {
+        "billing_country": "{{EXAMPLE_CC}}",
+        "payment_country": "{{EXAMPLE_CC}}",
+        "ip_country": "{{EXAMPLE_CC}}"
+      },
+      "purpose": "Study evidence integration and data merging patterns."
+    }
+  }
+}
+2. Confidence Assignment Patterns
+Pattern: Rule-Based Confidence Scoring
+python
+# EDUCATIONAL CONFIDENCE SCORING PATTERN
+def assign_confidence_score_pattern(evidence_data):
+    """
+    Conceptual pattern for confidence assignment based on rules.
+    Learning Focus: Rule evaluation, scoring logic, and tiered outcomes.
+    """
+    scoring_rules = [
+        {
+            "name": "high_confidence_rule",
+            "condition": lambda ed: (ed.get('primary_evidence_count', 0) >= 2
+                                     and ed.get('is_consistent', False)),
+            "score": (0.8, 1.0)
+        },
+        {
+            "name": "medium_confidence_rule",
+            "condition": lambda ed: (ed.get('primary_evidence_count', 0) >= 1
+                                     and ed.get('secondary_evidence_count', 0) >= 1),
+            "score": (0.5, 0.8)
+        },
+        {
+            "name": "low_confidence_rule",
+            "condition": lambda ed: True,  # Default rule
+            "score": (0.0, 0.5)
+        }
+    ]
+
+    matched_rule = None
+    for rule in scoring_rules:
+        if rule["condition"](evidence_data):
+            matched_rule = rule
+            break
+
+    score_range = matched_rule["score"] if matched_rule else (0.0, 0.5)
+    # Example deterministic score calculation
+    calculated_score = (score_range[0] + score_range[1]) / 2
+
+    return {
+        "confidence_level": matched_rule["name"] if matched_rule else "low_confidence",
+        "confidence_score": calculated_score,
+        "matched_rule": matched_rule["name"] if matched_rule else None,
+        "requires_review": calculated_score < 0.7,  # Example threshold
+        "note": "Rule-based confidence scoring pattern example."
+    }
+Pattern: Multi-Dimensional Quality Scoring
+python
+def calculate_data_quality_score_pattern(evidence_data):
+    """
+    Pattern for multi-dimensional data quality assessment.
+    Learning Focus: Quality dimensions, weighted scoring, metric aggregation.
+    """
+    quality_dimensions = {
+        "completeness": {"weight": 0.25, "score": _score_completeness(evidence_data)},
+        "accuracy": {"weight": 0.30, "score": _score_accuracy(evidence_data)},
+        "consistency": {"weight": 0.20, "score": _score_consistency(evidence_data)},
+        "timeliness": {"weight": 0.15, "score": _score_timeliness(evidence_data)},
+        "relevance": {"weight": 0.10, "score": _score_relevance(evidence_data)}
+    }
+
+    overall_score = 0.0
+    for dim, config in quality_dimensions.items():
+        overall_score += config["score"] * config["weight"]
+
+    return {
+        "overall_quality_score": round(overall_score, 3),
+        "dimension_scores": {dim: config["score"] for dim, config in quality_dimensions.items()},
+        "quality_level": _categorize_quality(overall_score),
+        "note": "Multi-dimensional data quality scoring pattern."
+    }
+3. Monitoring and Analytics Patterns
+Pattern: Evidence Collection Analytics
+python
+class EvidenceCollectionAnalyticsPattern:
+    """
+    Pattern for collecting and analyzing evidence metrics.
+    Learning Focus: Metrics aggregation, trend analysis, and reporting.
+    """
+    def __init__(self):
+        self.metrics = {
+            "evidence_sources_distribution": {},
+            "quality_score_distribution": {"high": 0, "medium": 0, "low": 0},
+            "average_processing_time": 0.0,
+            "common_validation_issues": {}
+        }
+
+    def collect_metrics(self, collection_result):
+        """
+        Example metrics collection pattern.
+        """
+        # Track evidence sources used
+        for source in collection_result.get("evidence_sources_used", []):
+            self.metrics["evidence_sources_distribution"][source] = \
+                self.metrics["evidence_sources_distribution"].get(source, 0) + 1
+
+        # Track quality scores
+        quality = collection_result.get("quality_level", "unknown")
+        if quality in self.metrics["quality_score_distribution"]:
+            self.metrics["quality_score_distribution"][quality] += 1
+
+        return self._generate_analytics_report()
+
+    def _generate_analytics_report(self):
+        total = sum(self.metrics["quality_score_distribution"].values())
+        return {
+            "summary_metrics": {
+                "total_records_analyzed": total,
+                "high_quality_percentage": (
+                    self.metrics["quality_score_distribution"]["high"] / total * 100
+                ) if total > 0 else 0,
+            },
+            "detailed_metrics": self.metrics,
+            "note": "Evidence collection analytics pattern for monitoring system health."
+        }
+4. Educational Exercises
+Study Questions:
+
+How does evidence quality impact downstream decision confidence?
+
+What patterns ensure data consistency when aggregating from multiple microservices?
+
+How can systems handle "unknown" or "missing" data quality dimensions gracefully?
+
+Design Exercises:
+
+Design a confidence scoring algorithm that adapts based on transaction value (hypothetical).
+
+Create data quality validation rules for a new type of evidence source.
+
+Design a dashboard to monitor the health of an evidence collection pipeline.
+
+5. Safety & Implementation Notes
+For Students & Educators:
+
+Use Synthetic Data: Generate test data, never use real information.
+
+Focus on Architecture: Implement the pattern (e.g., a quality scorer), not the fictional business logic.
+
+Document Assumptions: Clearly state the educational context and limitations of examples.
+
+This document contains conceptual design patterns for academic study of evidence collection and data quality systems.
