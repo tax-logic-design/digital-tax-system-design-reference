@@ -5,7 +5,7 @@
 **THIS IS NOT TAX ADVICE. DO NOT USE FOR PRODUCTION SYSTEMS.**
 
 ### 🚨 Disclaimer
-This repository contains conceptual design patterns and architectural blueprints for **educational and research purposes only**. The "digital tax" domain is used as a fictional, complex scenario to illustrate universal system design challenges. These materials are not suitable for actual financial or tax determination systems without professional review and adaptation.
+This repository contains conceptual design patterns and architectural blueprints for **educational and research purposes only**. The "digital tax" domain is used as a fictional, complex scenario to illustrate universal system design challenges. These materials are not suitable for actual financial or tax determination systems without professional review and adaptation by qualified tax experts.
 
 ### 📚 Purpose
 This project documents a comprehensive framework for studying complex, rule-based system architectures. It serves as:
@@ -23,20 +23,20 @@ MIT License - See LICENSE file for details.
 
 ### 📁 Project Structure
 
-This framework is organized into 22 conceptual modules:
+This framework is organized into 22 conceptual modules (File01 - File22):
 
 * **Phase 1: Foundation & Architecture**
-    * `File00 - File02`: Global overview, glossary, and core architecture specifications.
+    * `File01 - File02`: Glossary and Core System Architecture Specification patterns.
 * **Phase 2: Logic, Evidence & Workflow**
-    * `File03 - File06`: Evidence preprocessing, quality patterns, and deterministic workflow engine design.
+    * `File03 - File06`: Evidence preprocessing, quality patterns, configuration schemas, and workflow engine design.
 * **Phase 3: Governance & Review**
-    * `File07 - File10`: Human-in-the-Loop (HITL) patterns, threshold management, and audit readiness.
-* **Phase 4: Operational Readiness**
-    * `File11 - File14`: Implementation readiness, partner onboarding, and engagement logging.
+    * `File07 - File10`: Human-in-the-Loop (HITL) patterns, threshold management, third-party validation, and audit readiness.
+* **Phase 4: Operational Frameworks**
+    * `File11 - File14`: Implementation readiness, partner onboarding, regulatory tracking, and engagement logging patterns.
 * **Phase 5: Compliance & Risk Management**
-    * `File15 - File18`: Audit simulation, training manual patterns, and risk reporting templates.
-* **Phase 6: Quality Assurance & Validation**
-    * `File19 - File22`: Design checklists, implementation guidelines, audit log schemas, and regression testing.
+    * `File15 - File18`: Audit simulation, training manual patterns, risk reporting, and variance review workflows.
+* **Phase 6: Quality Assurance & Data Schema**
+    * `File19 - File22`: Design checklists, implementation guidelines, audit log schemas, and configuration regression testing.
 
 ---
-**REMEMBER: All examples, data structures, and rules are fictional placeholders designed for architectural study.**
+**REMEMBER: All examples, data structures, and rules are fictional placeholders designed for architectural study. Focus on the "how" (architecture), not the "what" (business logic).**
